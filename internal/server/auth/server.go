@@ -5,7 +5,7 @@ import (
 	"html/template"
 )
 
-var tpl = template.Must(template.ParseFiles("internal/template/login.html", "internal/template/register.html"))
+var tpl = template.Must(template.ParseFiles("internal/template/login.html", "internal/template/register.html", "internal/template/home.html"))
 
 type Server struct {
 	common_data.GinServer
