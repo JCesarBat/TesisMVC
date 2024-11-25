@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="/static/login.css">
 </head>
 <body>
+{{ if eq .status 401 }}
+<div id="messageBox" class="message-box">
+    <span class="close-btn" onclick="document.getElementById('messageBox').style.display='none'">&times;</span>
+    <p>Credenciales incorrectos</p>
+</div>
+{{ end }}
 <div class="login-container">
     <h1>ACLIFIM</h1>
     <form action="/login" method="post">

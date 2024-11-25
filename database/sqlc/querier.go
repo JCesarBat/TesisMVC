@@ -45,6 +45,7 @@ type Querier interface {
 	GetProvincia(ctx context.Context, id int64) (Provincium, error)
 	GetSessions(ctx context.Context, id uuid.UUID) (Session, error)
 	GetUser(ctx context.Context, username string) (User, error)
+	GetUserByUsername(ctx context.Context, username string) (User, error)
 	GetUserID(ctx context.Context, id int64) (User, error)
 	InertarProv(ctx context.Context, name string) (Provincium, error)
 	InsertAsoiciado(ctx context.Context, arg InsertAsoiciadoParams) (Asociado, error)
