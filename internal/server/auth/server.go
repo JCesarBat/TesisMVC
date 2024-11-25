@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-var tpl = template.Must(template.ParseFiles("internal/template/login.html"))
+var tpl = template.Must(template.ParseFiles("internal/template/login.html", "internal/template/register.html"))
 
 type Server struct {
 	common_data.GinServer
