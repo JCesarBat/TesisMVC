@@ -4,9 +4,9 @@ CREATE TABLE "asociado"(
     "apellido1" VARCHAR NOT NULL,
     "apellido2" VARCHAR NOT NULL,
     "activo" BOOL NOT NULL,
-    "carnet" BIGINT NOT NULL,
+    "carnet" varchar NOT NULL,
     "sexo" bool NOT NULL,
-    "numeroT" BIGINT ,
+    "numeroT" varchar ,
     "numeroPerteneciente" VARCHAR ,
     "direccion" VARCHAR NOT NULL,
     "id_municipio" BIGINT NOT NULL

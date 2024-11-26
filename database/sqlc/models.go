@@ -82,9 +82,9 @@ type Asociado struct {
 	Apellido1           string         `json:"apellido1"`
 	Apellido2           string         `json:"apellido2"`
 	Activo              bool           `json:"activo"`
-	Carnet              int64          `json:"carnet"`
+	Carnet              string         `json:"carnet"`
 	Sexo                bool           `json:"sexo"`
-	NumeroT             sql.NullInt64  `json:"numeroT"`
+	NumeroT             sql.NullString `json:"numeroT"`
 	NumeroPerteneciente sql.NullString `json:"numeroPerteneciente"`
 	Direccion           string         `json:"direccion"`
 	IDMunicipio         int64          `json:"id_municipio"`

@@ -56,7 +56,7 @@
             {{else}}
             <td>Mujer</td>
             {{end}}
-            <td>{{.NumeroT.Int64}}</td>
+            <td>{{.NumeroT.String}}</td>
             <td>{{.NumeroPerteneciente.String}}</td>
             <td>{{.Direccion}}</td>
             <td>Centro Habana</td>
@@ -69,7 +69,7 @@
     </table>
 
     <div class="button-container">
-        <button class="btn" onclick="openModal('createModal')">Crear Asociado</button>
+        <button class="btn" onclick="window.location.href='/crearasociado';">Crear Asociado</button>
     </div>
     {{ range .asociados}}
     <div id="modal{{.ID}}" class="modal">
@@ -98,7 +98,7 @@
                 {{else}}
                 <p>Sexo: Femenino</p>
                 {{end}}
-                <p>Teléfono: {{.NumeroT.Int64}}</p>
+                <p>Teléfono: {{.NumeroT.String}}</p>
                 <p>Otro Número: {{.NumeroPerteneciente.String}}</p>
                 <p>Dirección: {{.Direccion}}</p>
                 <p>Municipio: Centro Habana</p>

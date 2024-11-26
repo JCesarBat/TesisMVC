@@ -36,21 +36,23 @@
             </select>
 
             <label for="telefono">Teléfono:</label>
-            <input type="text" id="telefono" name="telefono" placeholder="+53 12345678" pattern="\+53\d{8}" title="Debe contener el código +53 seguido de 8 números" required>
+            <input type="number" id="telefono" name="telefono" placeholder="+53 12345678" pattern="\+53\d{8}" title="Debe contener el código +53 seguido de 8 números" required>
 
             <label for="otroTelefono">Otro Teléfono:</label>
-            <select id="tipoTelefono" name="tipoTelefono" onchange="actualizarPlaceholder()">
-                <option value="" disabled selected>Seleccione el tipo de teléfono</option>
-                <option value="movil">Móvil</option>
-                <option value="fijo">Fijo</option>
-            </select>
             <input type="text" id="otroTelefono" name="otroTelefono" placeholder="Seleccione el tipo de teléfono" required>
 
             <label for="direccion">Dirección:</label>
             <input type="text" id="direccion" name="direccion" placeholder="Dirección" required>
 
-            <label for="municipio">Municipio:</label>
-            <input type="text" id="municipio" name="municipio" placeholder="Municipio" required>
+            <select id="municipio" name="municipio" required>
+                {{ range .prov }}
+                {{ range .Municipios }}
+
+                <option value="{{ .ID }}">{{ .Name }}</option>
+                {{ end }}
+                {{ end }}
+
+            </select>
 
             <button type="submit">Añadir Asociado</button>
         </form>

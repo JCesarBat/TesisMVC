@@ -2,6 +2,7 @@ package auth
 
 import (
 	database "TesisMVC/database/sqlc"
+	"TesisMVC/internal/server/common_data"
 	"TesisMVC/pkg/util"
 	"context"
 	"database/sql"
@@ -9,14 +10,9 @@ import (
 	"strconv"
 )
 
-type ProvinciaComplete struct {
-	Provincia  database.Provincium
-	Municipios []database.Municipio
-}
-
 func (s *Server) Register(w http.ResponseWriter, r *http.Request) {
 	data := make(map[string]interface{})
-	AllProvMun := []ProvinciaComplete{}
+	AllProvMun := []common_data.ProvinciaComplete{}
 	prov, err := s.GetStore().GetAllProv(context.Background())
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -28,7 +24,7 @@ func (s *Server) Register(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		AllProvMun = append(AllProvMun, ProvinciaComplete{
+		AllProvMun = append(AllProvMun, common_data.ProvinciaComplete{
 			Provincia:  p,
 			Municipios: mun,
 		})

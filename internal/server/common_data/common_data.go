@@ -16,3 +16,8 @@ func GetMunAndProv(id int64, store database.Store, ctx context.Context) (databas
 	}
 	return mun, prov, nil
 }
+
+type ProvinciaComplete struct {
+	Provincia  database.Provincium
+	Municipios []database.Municipio
+}
