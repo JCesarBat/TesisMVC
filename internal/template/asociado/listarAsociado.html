@@ -6,7 +6,6 @@
     <title>Listado de Asociados</title>
     <link rel="stylesheet" href="static/asociado/listar.css">
 </head>
-
 <body>
 <header>
     <h1>Listado de Asociados</h1>
@@ -72,6 +71,18 @@
         <button class="btn" onclick="window.location.href='/crearasociado';">Crear Asociado</button>
     </div>
     {{ range .asociados}}
+    <div class="pagination-container">
+        <div class="pagination">
+            <a href="#" id="prev">&laquo;</a>
+            <a href="#" class="page-link">1</a>
+            <a href="#" class="page-link active">2</a>
+            <a href="#" class="page-link">3</a>
+            <a href="#" class="page-link">4</a>
+            <a href="#" class="page-link">5</a>
+            <a href="#" class="page-link">6</a>
+            <a href="#" id="next">&raquo;</a>
+        </div>
+    </div>
     <div id="modal{{.ID}}" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('modal{{.ID}}')">&times;</span>
@@ -200,7 +211,37 @@
             rows[i].style.display = text.includes(searchInput) ? '' : 'none';
         }
     }
+
+    const pages = document.querySelectorAll('.page-link');
+    let currentPage = 2;
+
+    function updatePagination(newPage) {
+        currentPage = newPage;
+        pages.forEach((page, index) => {
+            page.classList.toggle('active', index + 1 === currentPage);
+        });
+    }
+
+    document.getElementById('prev').addEventListener('click', () => {
+        if (currentPage > 1) {
+            updatePagination(currentPage - 1);
+        }
+    });
+
+    document.getElementById('next').addEventListener('click', () => {
+        if (currentPage < pages.length) {
+            updatePagination(currentPage + 1);
+        }
+    });
+
+    pages.forEach((page, index) => {
+        page.addEventListener('click', () => {
+            updatePagination(index + 1);
+        });
+    });
+
 </script>
 
 </body>
 </html>
+

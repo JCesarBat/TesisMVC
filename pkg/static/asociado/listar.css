@@ -205,3 +205,34 @@ button:hover {
 .carousel-button:hover {
     background-color: #45a049;
 }
+
+
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Esto asegura que el contenedor ocupe toda la altura de la página */
+}
+
+.pagination {
+    display: inline-block;
+}
+
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+.pagination a.active {
+    background-color: #0056b3;
+    color: white;
+    border-radius: 5px;
+}
+
+.pagination a:hover:not(.active) {
+    background-color: #ddd;
+    border-radius: 5px;
+}
