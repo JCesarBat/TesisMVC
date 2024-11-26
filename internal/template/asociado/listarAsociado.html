@@ -43,6 +43,7 @@
         </tr>
         </thead>
         <tbody>
+
         {{ range .asociados}}
         <tr>
             <td>{{.Nombre}}</td>
@@ -62,6 +63,7 @@
             <td><button class="btn" onclick="openModal('modal{{.ID}}')">Ver</button></td>
         </tr>
         {{end}}
+
         <!-- Más filas de ejemplo -->
         </tbody>
     </table>
@@ -105,6 +107,7 @@
     </div>
 
     <!-- Modales para las actividades -->
+
     <div id="culturalModal{{.ID}}" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('culturalModal{{.ID}}')">&times;</span>
@@ -118,6 +121,7 @@
             <p>Lista de actividades culturales...</p>
         </div>
     </div>
+
 
     <div id="educativeModal{{.ID}}" class="modal">
         <div class="modal-content">
@@ -147,9 +151,11 @@
         </div>
     </div>
 
+
     <div id="socialModal{{.ID}}" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('socialModal{{.ID}}')">&times;</span>
+
             <h2>Datos Sociales</h2>
             <div class="activity-buttons">
                 <button>Añadir Actividad</button>

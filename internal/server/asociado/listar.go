@@ -39,5 +39,6 @@ func (s *Server) Listar(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	s.Data["asociados"] = asociados
+
 	tpl.ExecuteTemplate(w, "listarAsociado.html", s.Data)
 }

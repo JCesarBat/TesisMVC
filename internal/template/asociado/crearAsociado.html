@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Asociado</title>
+    <link rel="stylesheet" href="static/asociado/crearAsociado.css">
+</head>
+<body>
+<header>
+    <h1>Crear Asociado</h1>
+</header>
+<main>
+    <div class="form-card">
+        <form id="asociadoForm" method="post" action="/crearasociado">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
+
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" placeholder="Apellido" required>
+
+            <label for="segundoApellido">Segundo Apellido:</label>
+            <input type="text" id="segundoApellido" name="segundoApellido" placeholder="Segundo Apellido" required>
+
+            <label for="activo">Activo:</label>
+            <input type="checkbox" id="activo" name="activo">
+
+            <label for="carnet">Carnet:</label>
+            <input type="text" id="carnet" name="carnet" placeholder="Carnet" maxlength="11" pattern="\d{11}" title="Debe contener 11 números" required>
+
+            <label for="sexo">Sexo:</label>
+            <select id="sexo" name="sexo" required>
+                <option value="" disabled selected>Seleccione el sexo</option>
+                <option value="M">Masculino</option>
+                <option value="F">Femenino</option>
+            </select>
+
+            <label for="telefono">Teléfono:</label>
+            <input type="text" id="telefono" name="telefono" placeholder="+53 12345678" pattern="\+53\d{8}" title="Debe contener el código +53 seguido de 8 números" required>
+
+            <label for="otroTelefono">Otro Teléfono:</label>
+            <select id="tipoTelefono" name="tipoTelefono" onchange="actualizarPlaceholder()">
+                <option value="" disabled selected>Seleccione el tipo de teléfono</option>
+                <option value="movil">Móvil</option>
+                <option value="fijo">Fijo</option>
+            </select>
+            <input type="text" id="otroTelefono" name="otroTelefono" placeholder="Seleccione el tipo de teléfono" required>
+
+            <label for="direccion">Dirección:</label>
+            <input type="text" id="direccion" name="direccion" placeholder="Dirección" required>
+
+            <label for="municipio">Municipio:</label>
+            <input type="text" id="municipio" name="municipio" placeholder="Municipio" required>
+
+            <button type="submit">Añadir Asociado</button>
+        </form>
+    </div>
+</main>
+
+<script>
+    function actualizarPlaceholder() {
+        const tipoTelefono = document.getElementById('tipoTelefono').value;
+        const otroTelefono = document.getElementById('otroTelefono');
+
+        if (tipoTelefono === 'movil') {
+            otroTelefono.placeholder = "+53 12345678";
+            otroTelefono.pattern = "\\+53\\d{8}";
+            otroTelefono.title = "Debe contener el código +53 seguido de 8 números";
+        } else if (tipoTelefono === 'fijo') {
+            otroTelefono.placeholder = "12345678";
+            otroTelefono.pattern = "\\d{8}";
+            otroTelefono.title = "Debe contener 8 números";
+        }
+    }
+</script>
+</body>
+</html>
