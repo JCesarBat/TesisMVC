@@ -43,72 +43,27 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>Juan</td>
-            <td>Pérez</td>
-            <td>González</td>
-            <td><input type="checkbox" class="active-checkbox" checked></td>
-            <td>123456</td>
-            <td>M</td>
-            <td>555-1234</td>
-            <td>555-5678</td>
-            <td>Calle Falsa 123</td>
-            <td>Centro Habana</td>
-            <td><button class="btn" onclick="openModal('modal1')">Ver</button></td>
-        </tr>
-        <tr>
-            <td>Juan</td>
-            <td>Pérez</td>
-            <td>González</td>
-            <td><input type="checkbox" class="active-checkbox" checked></td>
-            <td>123456</td>
-            <td>M</td>
-            <td>555-1234</td>
-            <td>555-5678</td>
-            <td>Calle Falsa 123</td>
-            <td>Centro Habana</td>
-            <td><button class="btn" onclick="openModal('modal1')">Ver</button></td>
-        </tr>
-        <tr>
-            <td>Elsa</td>
-            <td>Tor</td>
-            <td>Alfonso</td>
-            <td><input type="checkbox" class="active-checkbox" checked></td>
-            <td>123456</td>
-            <td>F</td>
-            <td>555-1234</td>
-            <td>555-5678</td>
-            <td>Calle Falsa 123</td>
-            <td>Centro Habana</td>
-            <td><button class="btn" onclick="openModal('modal1')">Ver</button></td>
-        </tr>
 
+        {{ range .asociados}}
         <tr>
-            <td>Hassel</td>
-            <td>Valls</td>
-            <td>Alfonso</td>
-            <td><input type="checkbox" class="active-checkbox" checked></td>
-            <td>123456</td>
-            <td>M</td>
-            <td>555-1234</td>
-            <td>555-5678</td>
-            <td>Calle Falsa 123</td>
+            <td>{{.Nombre}}</td>
+            <td>{{.Apellido1}}</td>
+            <td>{{.Apellido2}}</td>
+            <td>{{.Activo}}</td>
+            <td>{{.Carnet}}</td>
+            {{if .Sexo }}
+            <td>Hombre</td>
+            {{else}}
+            <td>Mujer</td>
+            {{end}}
+            <td>{{.NumeroT.Int64}}</td>
+            <td>{{.NumeroPerteneciente.String}}</td>
+            <td>{{.Direccion}}</td>
             <td>Centro Habana</td>
-            <td><button class="btn" onclick="openModal('modal1')">Ver</button></td>
+            <td><button class="btn" onclick="openModal('modal{{.ID}}')">Ver</button></td>
         </tr>
-        <tr>
-            <td>Carlo</td>
-            <td>Lopez</td>
-            <td>General</td>
-            <td><input type="checkbox" class="active-checkbox" checked></td>
-            <td>123456</td>
-            <td>F</td>
-            <td>555-1234</td>
-            <td>555-5678</td>
-            <td>Calle Falsa 123</td>
-            <td>Centro Habana</td>
-            <td><button class="btn" onclick="openModal('modal1')">Ver</button></td>
-        </tr>
+        {{end}}
+
         <!-- Más filas de ejemplo -->
         </tbody>
     </table>
@@ -116,37 +71,47 @@
     <div class="button-container">
         <button class="btn" onclick="openModal('createModal')">Crear Asociado</button>
     </div>
-
-    <div id="modal1" class="modal">
+    {{ range .asociados}}
+    <div id="modal{{.ID}}" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('modal1')">&times;</span>
+            <span class="close" onclick="closeModal('modal{{.ID}}')">&times;</span>
             <h2>Detalles del Asociado</h2>
             <div class="modal-buttons">
-                <button class="btn-modal" onclick="openModal('culturalModal')">Actividades Culturales</button>
-                <button class="btn-modal" onclick="openModal('educativeModal')">Actividades Educativas</button>
-                <button class="btn-modal" onclick="openModal('sportModal')">Actividades Deportivas</button>
-                <button class="btn-modal" onclick="openModal('socialModal')">Datos Sociales</button>
+                <button class="btn-modal" onclick="openModal('culturalModal{{.ID}}')">Actividades Culturales</button>
+                <button class="btn-modal" onclick="openModal('educativeModal{{.ID}}')">Actividades Educativas</button>
+                <button class="btn-modal" onclick="openModal('sportModal{{.ID}}')">Actividades Deportivas</button>
+                <button class="btn-modal" onclick="openModal('socialModal{{.ID}}')">Datos Sociales</button>
             </div>
+
             <div class="details">
-                <p>Nombre: Juan</p>
-                <p>Primer Apellido: Pérez</p>
-                <p>Segundo Apellido: González</p>
-                <p>Activo: Sí</p>
-                <p>Carnet: 123456</p>
+
+
+                <p>Nombre: {{.Nombre}}</p>
+
+                <p>Primer Apellido: {{.Apellido1}}</p>
+                <p>Segundo Apellido: {{.Apellido2}}</p>
+                <p>Activo: {{.Activo}}</p>
+                <p>Carnet: {{.Carnet}}</p>
+
+                {{if .Sexo }}
                 <p>Sexo: Masculino</p>
-                <p>Teléfono: 555-1234</p>
-                <p>Otro Número: 555-5678</p>
-                <p>Dirección: Calle Falsa 123</p>
+                {{else}}
+                <p>Sexo: Femenino</p>
+                {{end}}
+                <p>Teléfono: {{.NumeroT.Int64}}</p>
+                <p>Otro Número: {{.NumeroPerteneciente.String}}</p>
+                <p>Dirección: {{.Direccion}}</p>
                 <p>Municipio: Centro Habana</p>
             </div>
         </div>
     </div>
 
     <!-- Modales para las actividades -->
-    <div id="culturalModal" class="modal">
+
+    <div id="culturalModal{{.ID}}" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('culturalModal')">&times;</span>
-            <button class="carousel-button" onclick="nextModal('educativeModal')">Siguiente</button>
+            <span class="close" onclick="closeModal('culturalModal{{.ID}}')">&times;</span>
+            <button class="carousel-button" onclick="nextModal('educativeModal{{.ID}}')">Siguiente</button>
             <h2>Actividades Culturales</h2>
             <div class="activity-buttons">
                 <button>Añadir Actividad</button>
@@ -157,10 +122,11 @@
         </div>
     </div>
 
-    <div id="educativeModal" class="modal">
+
+    <div id="educativeModal{{.ID}}" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('educativeModal')">&times;</span>
-            <button class="carousel-button" onclick="nextModal('sportModal')">Siguiente</button>
+            <span class="close" onclick="closeModal('educativeModal{{.ID}}')">&times;</span>
+            <button class="carousel-button" onclick="nextModal('sportModal{{.ID}}')">Siguiente</button>
             <h2>Actividades Educativas</h2>
             <div class="activity-buttons">
                 <button>Añadir Actividad</button>
@@ -171,9 +137,9 @@
         </div>
     </div>
 
-    <div id="sportModal" class="modal">
+    <div id="sportModal{{.ID}}" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('sportModal')">&times;</span>
+            <span class="close" onclick="closeModal('sportModal{{.ID}}')">&times;</span>
             <button class="carousel-button" onclick="nextModal('culturalModal')">Siguiente</button>
             <h2>Actividades Deportivas</h2>
             <div class="activity-buttons">
@@ -185,9 +151,11 @@
         </div>
     </div>
 
-    <div id="socialModal" class="modal">
+
+    <div id="socialModal{{.ID}}" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('socialModal')">&times;</span>
+            <span class="close" onclick="closeModal('socialModal{{.ID}}')">&times;</span>
+
             <h2>Datos Sociales</h2>
             <div class="activity-buttons">
                 <button>Añadir Actividad</button>
@@ -197,6 +165,7 @@
             <p>Lista de datos sociales...</p>
         </div>
     </div>
+    {{end}}
 </main>
 
 <script>

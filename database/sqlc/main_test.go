@@ -1,7 +1,7 @@
 package database
 
 import (
-	"TesisAclifim/pkg/util"
+	"TesisMVC/pkg/util"
 	"database/sql"
 	_ "github.com/lib/pq"
 
