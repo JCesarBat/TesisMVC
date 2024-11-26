@@ -17,6 +17,9 @@ func NewOrchestrator(store database.Store, config util.Config) (*Orchestrator, e
 		return nil, err
 	}
 	return &Orchestrator{
-		Auth: &auth.Server{server},
+		Auth: &auth.Server{
+			GinServer: server,
+			Data:      make(map[string]any),
+		},
 	}, nil
 }

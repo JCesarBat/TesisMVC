@@ -12,9 +12,7 @@ type GinServer interface {
 	GetTokenMaker() token.Maker
 	GetConfig() util.Config
 	SetStore(store database.Store)
-	GetData() map[string]any
 	GetCookie() util.Cookie
-	ResetData()
 }
 
 type Server struct {
@@ -59,9 +57,4 @@ func (s *Server) GetCookie() util.Cookie {
 }
 func (s *Server) GetData() map[string]any {
 	return s.data
-}
-
-func (s *Server) ResetData() {
-	s.data = make(map[string]any)
-
 }

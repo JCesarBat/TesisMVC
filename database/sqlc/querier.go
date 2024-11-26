@@ -42,6 +42,7 @@ type Querier interface {
 	GetMunicipio(ctx context.Context, id int64) (Municipio, error)
 	GetParticipacionC(ctx context.Context, idActividadCultural sql.NullInt64) ([]ParticipacionC, error)
 	GetParticipacionD(ctx context.Context, idActividadDeportiva sql.NullInt64) ([]ParticipacionD, error)
+	GetProvByName(ctx context.Context, name string) (Provincium, error)
 	GetProvincia(ctx context.Context, id int64) (Provincium, error)
 	GetSessions(ctx context.Context, id uuid.UUID) (Session, error)
 	GetUser(ctx context.Context, username string) (User, error)

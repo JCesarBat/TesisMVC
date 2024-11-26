@@ -10,6 +10,12 @@ var tpl = template.Must(template.ParseFiles("internal/template/login.html", "int
 
 type Server struct {
 	common_data.GinServer
+	Data map[string]any
+}
+
+func (s *Server) ResetData() {
+	s.Data = make(map[string]any)
+
 }
 
 func (s *Server) CloseSession(w http.ResponseWriter, r *http.Request) {

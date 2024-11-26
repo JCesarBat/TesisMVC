@@ -9,7 +9,7 @@
 <body>
 <div class="container">
     <h2>Registro</h2>
-    <form>
+    <form method="POST" action="/register">
         <div class="form-group">
             <label for="nombre">Nombre:</label>
             <input type="text" id="nombre" name="nombre" required>
@@ -34,27 +34,23 @@
             </select>
         </div>
         <div class="form-group">
-            <label for="provincia">Provincia:</label>
-            <select id="provincia" name="provincia" required>
-                <option value="">Seleccione una provincia</option>
-                <option value="provincia1">Provincia 1</option>
-                <option value="provincia2">Provincia 2</option>
-                <option value="provincia3">Provincia 3</option>
-                <!-- Agrega más opciones aquí -->
-            </select>
-        </div>
-        <div class="form-group">
             <label for="municipio">Municipio:</label>
             <select id="municipio" name="municipio" required>
-                <option value="">Seleccione un municipio</option>
-                <option value="municipio1">Municipio 1</option>
-                <option value="municipio2">Municipio 2</option>
-                <option value="municipio3">Municipio 3</option>
-                <!-- Agrega más opciones aquí -->
+                {{ range .prov }}
+                    {{ range .Municipios }}
+
+                <option value="{{ .ID }}">{{ .Name }}</option>
+                {{ end }}
+                {{ end }}
+
             </select>
         </div>
         <button type="submit">Registrarse</button>
     </form>
 </div>
+<script >
+    let value = document.getElementById('#provinciaId').value;
+    console.log(value);
+</script>
 </body>
 </html>

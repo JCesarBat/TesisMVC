@@ -26,6 +26,9 @@ func main() {
 	}
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./pkg/static"))))
 	http.HandleFunc("/login", orchestatrator.Auth.Login)
+	http.HandleFunc("/register", orchestatrator.Auth.Register)
+	http.HandleFunc("/logout", orchestatrator.Auth.CloseSession)
+	http.HandleFunc("/home", orchestatrator.Auth.Home)
 	log.Println("the server is listening")
 	http.ListenAndServe(config.HTTP_Server, nil)
 }
