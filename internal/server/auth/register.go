@@ -36,16 +36,18 @@ func (s *Server) Register(w http.ResponseWriter, r *http.Request) {
 	data["prov"] = AllProvMun
 
 	if r.Method == "POST" {
-		if RegisterUser(r, s.GetStore()) {
-			http.Redirect(w, r, "/home", http.StatusFound)
+		if RegisterUser(r, w, s.GetStore(), s) {
 			return
 		}
-		http.Error(w, "Invalid user information", http.StatusBadRequest)
+		w.WriteHeader(401)
+		data["status"] = 401
+		tpl.ExecuteTemplate(w, "register.html", data)
+		return
 	}
 	tpl.ExecuteTemplate(w, "register.html", data)
 }
 
-func RegisterUser(r *http.Request, store database.Store) bool {
+func RegisterUser(r *http.Request, w http.ResponseWriter, store database.Store, s *Server) bool {
 	var SU bool
 	username := r.FormValue("nombre")
 	email := r.FormValue("email")
@@ -81,5 +83,7 @@ func RegisterUser(r *http.Request, store database.Store) bool {
 	if err != nil {
 		return false
 	}
+	s.GetCookie().SetCookie(username, w)
 	return true
+
 }

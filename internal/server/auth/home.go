@@ -8,4 +8,5 @@ func (s *Server) Home(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/login", http.StatusFound)
 		return
 	}
+	tpl.ExecuteTemplate(w, "home.html", s.Data)
 }
