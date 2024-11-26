@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Asociados</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    /* styles.css */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+
+    header {
+        background-color: #333;
+        color: white;
+        text-align: center;
+        padding: 20px 0;
+    }
+
+    main {
+        padding: 20px;
+    }
+
+    .search-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .search-container label {
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
+    .search-container input {
+        padding: 8px;
+        width: 200px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        margin-right: 10px;
+    }
+
+    .search-container select {
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    th, td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    th {
+        background-color: #333;
+        color: white;
+    }
+
+    tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+
+    button:hover {
+        background-color: #45a049;
+    }
+    .create-button{
+        background-color: #333;
+        color: white;
+        text-align: center;
+        padding: 20px 0;
+    }
+
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .modal.show {
+        display: block;
+        opacity: 1;
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto;
+        padding: 40px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 600px;
+        border-radius: 8px;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .active-checkbox {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+    }
+
+    .active-checkbox:checked {
+        background-color: #4CAF50;
+        border-color: #4CAF50;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    .btn-modal{
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .btn-modal:hover { background-color: #0056b3; }
+
+    .button-container {
+        display: grid;
+        gap: 10rem;
+        width: 100%;
+        justify-content: center;
+    }
+    .btn {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 1rem;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .btn:hover { background-color: #0056b3; }
+    .pagination-dot {
+        height: 15px;
+        width: 15px;
+        margin: 0 5px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .pagination-dot:hover {
+        background-color: #717171;
+    }
+
+    .carousel-button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 50%;
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .carousel-button:hover {
+        background-color: #45a049;
+    }
+
+</style>
+<body>
+<header>
+    <h1>Listado de Asociados</h1>
+</header>
+
+<main>
+    <div class="search-container">
+        <label for="search">Buscar:</label>
+        <input type="text" id="search" placeholder="Buscar..." onkeyup="filterTable()">
+        <select id="searchCategory">
+            <option value="0">Nombre</option>
+            <option value="1">Primer Apellido</option>
+            <option value="2">Segundo Apellido</option>
+            <option value="6">Teléfono</option>
+            <option value="7">Otro Número</option>
+            <option value="9">Municipio</option>
+        </select>
+    </div>
+
+    <table id="asociadosTable">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Primer Apellido</th>
+            <th>Segundo Apellido</th>
+            <th>Activo</th>
+            <th>Carnet</th>
+            <th>Sexo</th>
+            <th>Teléfono</th>
+            <th>Otro Número</th>
+            <th>Dirección</th>
+            <th>Municipio</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Juan</td>
+            <td>Pérez</td>
+            <td>González</td>
+            <td><input type="checkbox" class="active-checkbox" checked></td>
+            <td>123456</td>
+            <td>M</td>
+            <td>555-1234</td>
+            <td>555-5678</td>
+            <td>Calle Falsa 123</td>
+            <td>Centro Habana</td>
+            <td><button class="btn" onclick="openModal('modal1')">Ver</button></td>
+        </tr>
+        <tr>
+            <td>Juan</td>
+            <td>Pérez</td>
+            <td>González</td>
+            <td><input type="checkbox" class="active-checkbox" checked></td>
+            <td>123456</td>
+            <td>M</td>
+            <td>555-1234</td>
+            <td>555-5678</td>
+            <td>Calle Falsa 123</td>
+            <td>Centro Habana</td>
+            <td><button class="btn" onclick="openModal('modal1')">Ver</button></td>
+        </tr>
+        <tr>
+            <td>Elsa</td>
+            <td>Tor</td>
+            <td>Alfonso</td>
+            <td><input type="checkbox" class="active-checkbox" checked></td>
+            <td>123456</td>
+            <td>F</td>
+            <td>555-1234</td>
+            <td>555-5678</td>
+            <td>Calle Falsa 123</td>
+            <td>Centro Habana</td>
+            <td><button class="btn" onclick="openModal('modal1')">Ver</button></td>
+        </tr>
+
+        <tr>
+            <td>Hassel</td>
+            <td>Valls</td>
+            <td>Alfonso</td>
+            <td><input type="checkbox" class="active-checkbox" checked></td>
+            <td>123456</td>
+            <td>M</td>
+            <td>555-1234</td>
+            <td>555-5678</td>
+            <td>Calle Falsa 123</td>
+            <td>Centro Habana</td>
+            <td><button class="btn" onclick="openModal('modal1')">Ver</button></td>
+        </tr>
+        <tr>
+            <td>Carlo</td>
+            <td>Lopez</td>
+            <td>General</td>
+            <td><input type="checkbox" class="active-checkbox" checked></td>
+            <td>123456</td>
+            <td>F</td>
+            <td>555-1234</td>
+            <td>555-5678</td>
+            <td>Calle Falsa 123</td>
+            <td>Centro Habana</td>
+            <td><button class="btn" onclick="openModal('modal1')">Ver</button></td>
+        </tr>
+        <!-- Más filas de ejemplo -->
+        </tbody>
+    </table>
+
+    <div class="button-container">
+        <button class="btn" onclick="openModal('createModal')">Crear Asociado</button>
+    </div>
+
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal1')">&times;</span>
+            <h2>Detalles del Asociado</h2>
+            <div class="modal-buttons">
+                <button class="btn-modal" onclick="openModal('culturalModal')">Actividades Culturales</button>
+                <button class="btn-modal" onclick="openModal('educativeModal')">Actividades Educativas</button>
+                <button class="btn-modal" onclick="openModal('sportModal')">Actividades Deportivas</button>
+                <button class="btn-modal" onclick="openModal('socialModal')">Datos Sociales</button>
+            </div>
+            <div class="details">
+                <p>Nombre: Juan</p>
+                <p>Primer Apellido: Pérez</p>
+                <p>Segundo Apellido: González</p>
+                <p>Activo: Sí</p>
+                <p>Carnet: 123456</p>
+                <p>Sexo: Masculino</p>
+                <p>Teléfono: 555-1234</p>
+                <p>Otro Número: 555-5678</p>
+                <p>Dirección: Calle Falsa 123</p>
+                <p>Municipio: Centro Habana</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modales para las actividades -->
+    <div id="culturalModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('culturalModal')">&times;</span>
+            <button class="carousel-button" onclick="nextModal('educativeModal')">Siguiente</button>
+            <h2>Actividades Culturales</h2>
+            <div class="activity-buttons">
+                <button>Añadir Actividad</button>
+                <button>Editar Actividad</button>
+                <button>Eliminar Actividad</button>
+            </div>
+            <p>Lista de actividades culturales...</p>
+        </div>
+    </div>
+
+    <div id="educativeModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('educativeModal')">&times;</span>
+            <button class="carousel-button" onclick="nextModal('sportModal')">Siguiente</button>
+            <h2>Actividades Educativas</h2>
+            <div class="activity-buttons">
+                <button>Añadir Actividad</button>
+                <button>Editar Actividad</button>
+                <button>Eliminar Actividad</button>
+            </div>
+            <p>Lista de actividades educativas...</p>
+        </div>
+    </div>
+
+    <div id="sportModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('sportModal')">&times;</span>
+            <button class="carousel-button" onclick="nextModal('culturalModal')">Siguiente</button>
+            <h2>Actividades Deportivas</h2>
+            <div class="activity-buttons">
+                <button>Añadir Actividad</button>
+                <button>Editar Actividad</button>
+                <button>Eliminar Actividad</button>
+            </div>
+            <p>Lista de actividades deportivas...</p>
+        </div>
+    </div>
+
+    <div id="socialModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('socialModal')">&times;</span>
+            <h2>Datos Sociales</h2>
+            <div class="activity-buttons">
+                <button>Añadir Actividad</button>
+                <button>Editar Actividad</button>
+                <button>Eliminar Actividad</button>
+            </div>
+            <p>Lista de datos sociales...</p>
+        </div>
+    </div>
+</main>
+
+<script>
+    function openModal(id) {
+        let modals = document.querySelectorAll('.modal');
+        modals.forEach(function(modal) {
+            modal.classList.remove('show');
+        });
+        document.getElementById(id).classList.add('show');
+    }
+
+    function closeModal(id) {
+        document.getElementById(id).classList.remove('show');
+    }
+
+    function nextModal(id) {
+        let currentModal = document.querySelector('.modal.show');
+        currentModal.classList.remove('show');
+        document.getElementById(id).classList.add('show');
+    }
+
+    function filterTable() {
+        const searchInput = document.getElementById('search').value.toLowerCase();
+        const category = document.getElementById('searchCategory').value;
+        const table = document.getElementById('asociadosTable');
+        const rows = table.getElementsByTagName('tr');
+
+        for (let i = 1; i < rows.length; i++) {
+            const cells = rows[i].getElementsByTagName('td');
+            const cell = cells[category];
+            const text = cell ? cell.innerText.toLowerCase() : '';
+            rows[i].style.display = text.includes(searchInput) ? '' : 'none';
+        }
+    }
+</script>
+
+</body>
+</html>
