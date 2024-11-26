@@ -6,6 +6,28 @@ import (
 	"net/http"
 )
 
+type CulturalContent struct {
+	Actividad     database.ActividadCultural
+	Participacion []database.ParticipacionC
+}
+
+type DeportivaContent struct {
+	Actividad     database.ActividadDeportiva
+	Participacion []database.ParticipacionD
+}
+
+type EducativaContent struct {
+	Actividad database.ActividadEducativa
+	Estudios  database.EstudiosActuale
+}
+type AsociadosContent struct {
+	database.Asociado
+	database.DatosSociale
+	Cultural  CulturalContent
+	Deportiva DeportivaContent
+	Educativa EducativaContent
+}
+
 func (s *Server) Listar(w http.ResponseWriter, r *http.Request) {
 	arg := database.ListAsociadoParams{
 		Limit:  10,
