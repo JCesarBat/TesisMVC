@@ -4,10 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro</title>
-    <link rel="stylesheet" href="/static/register.css">
+    <link rel="stylesheet" href="/static/auth/register.css">
 </head>
 <body>
+
 <div class="container">
+    {{ if eq .status 401 }}
+    <div id="messageBox" class="message-box">
+        <span class="close-btn" onclick="document.getElementById('messageBox').style.display='none'">&times;</span>
+        <p>Datos  incorrectos</p>
+    </div>
+    {{ end }}
     <h2>Registro</h2>
     <form method="POST" action="/register">
         <div class="form-group">

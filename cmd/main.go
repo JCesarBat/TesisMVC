@@ -29,6 +29,9 @@ func main() {
 	http.HandleFunc("/register", orchestatrator.Auth.Register)
 	http.HandleFunc("/logout", orchestatrator.Auth.CloseSession)
 	http.HandleFunc("/home", orchestatrator.Auth.Home)
+
+	//asociado
+	http.HandleFunc("/listar", orchestatrator.Asociado.Listar)
 	log.Println("the server is listening")
 	http.ListenAndServe(config.HTTP_Server, nil)
 }
