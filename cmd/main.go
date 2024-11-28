@@ -33,6 +33,9 @@ func main() {
 	//asociado
 	http.HandleFunc("/listar", orchestatrator.Asociado.Listar)
 	http.HandleFunc("/crearasociado", orchestatrator.Asociado.CrearAsociado)
+
+	//actividad educativa
+	http.HandleFunc("/crearactividadeducativa", orchestatrator.Educativa.CrearActividadEducativa)
 	log.Println("the server is listening")
 	http.ListenAndServe(config.HTTP_Server, nil)
 }

@@ -14,7 +14,7 @@ INSERT INTO "participacionD"(
 ) VALUES ($1,$2,$3,$4,$5) returning *;
 
 -- name: GetActividadDeportiva :one
-SELECT * FROM "actividad_deportiva"  WHERE "actividad_deportiva".id =$1 ;
+SELECT * FROM "actividad_deportiva"  WHERE "actividad_deportiva"."id_asociado" =$1 ;
 
 -- name: GetParticipacionD :many
 SELECT *FROM "participacionD" WHERE "id_actividad_deportiva" =$1 ;

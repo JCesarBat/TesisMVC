@@ -137,6 +137,46 @@ func (q *Queries) ListAsociado(ctx context.Context, arg ListAsociadoParams) ([]A
 	return items, nil
 }
 
+const listarAsociadoAll = `-- name: ListarAsociadoAll :many
+SELECT id, nombre, apellido1, apellido2, activo, carnet, sexo, "numeroT", "numeroPerteneciente", direccion, id_municipio FROM "asociado"
+ORDER BY id
+`
+
+func (q *Queries) ListarAsociadoAll(ctx context.Context) ([]Asociado, error) {
+	rows, err := q.db.QueryContext(ctx, listarAsociadoAll)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []Asociado{}
+	for rows.Next() {
+		var i Asociado
+		if err := rows.Scan(
+			&i.ID,
+			&i.Nombre,
+			&i.Apellido1,
+			&i.Apellido2,
+			&i.Activo,
+			&i.Carnet,
+			&i.Sexo,
+			&i.NumeroT,
+			&i.NumeroPerteneciente,
+			&i.Direccion,
+			&i.IDMunicipio,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const updateAsociado = `-- name: UpdateAsociado :one
 UPDATE "asociado"
 set

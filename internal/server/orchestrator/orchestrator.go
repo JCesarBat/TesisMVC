@@ -2,6 +2,7 @@ package orchestrator
 
 import (
 	database "TesisMVC/database/sqlc"
+	"TesisMVC/internal/server/actividadEducativa"
 	"TesisMVC/internal/server/asociado"
 	"TesisMVC/internal/server/auth"
 	"TesisMVC/internal/server/common_data"
@@ -9,8 +10,9 @@ import (
 )
 
 type Orchestrator struct {
-	Auth     *auth.Server
-	Asociado *asociado.Server
+	Auth      *auth.Server
+	Asociado  *asociado.Server
+	Educativa *actividadEducativa.Server
 }
 
 func NewOrchestrator(store database.Store, config util.Config) (*Orchestrator, error) {
@@ -24,6 +26,10 @@ func NewOrchestrator(store database.Store, config util.Config) (*Orchestrator, e
 			Data:      make(map[string]any),
 		},
 		Asociado: &asociado.Server{
+			GinServer: server,
+			Data:      make(map[string]any),
+		},
+		Educativa: &actividadEducativa.Server{
 			GinServer: server,
 			Data:      make(map[string]any),
 		},

@@ -11,6 +11,10 @@ ORDER BY id
 LIMIT $1
     OFFSET $2;
 
+-- name: ListarAsociadoAll :many
+SELECT * FROM "asociado"
+ORDER BY id;
+
 -- name: UpdateAsociado :one
 UPDATE "asociado"
 set

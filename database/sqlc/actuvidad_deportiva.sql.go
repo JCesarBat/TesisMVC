@@ -89,11 +89,11 @@ func (q *Queries) DeleteParticipacion(ctx context.Context, id int64) error {
 }
 
 const getActividadDeportiva = `-- name: GetActividadDeportiva :one
-SELECT id, id_asociado, aficcion_o_practica FROM "actividad_deportiva"  WHERE "actividad_deportiva".id =$1
+SELECT id, id_asociado, aficcion_o_practica FROM "actividad_deportiva"  WHERE "actividad_deportiva"."id_asociado" =$1
 `
 
-func (q *Queries) GetActividadDeportiva(ctx context.Context, id int64) (ActividadDeportiva, error) {
-	row := q.db.QueryRowContext(ctx, getActividadDeportiva, id)
+func (q *Queries) GetActividadDeportiva(ctx context.Context, idAsociado int64) (ActividadDeportiva, error) {
+	row := q.db.QueryRowContext(ctx, getActividadDeportiva, idAsociado)
 	var i ActividadDeportiva
 	err := row.Scan(&i.ID, &i.IDAsociado, pq.Array(&i.AficcionOPractica))
 	return i, err

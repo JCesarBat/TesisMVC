@@ -43,23 +43,23 @@
         </thead>
         <tbody>
 
-        {{ range .asociados}}
+        {{ range .resp}}
         <tr>
-            <td>{{.Nombre}}</td>
-            <td>{{.Apellido1}}</td>
-            <td>{{.Apellido2}}</td>
-            <td>{{.Activo}}</td>
-            <td>{{.Carnet}}</td>
-            {{if .Sexo }}
+            <td>{{.Asociado.ID}}</td>
+            <td>{{.Asociado.Apellido1}}</td>
+            <td>{{.Asociado.Apellido2}}</td>
+            <td>{{.Asociado.Activo}}</td>
+            <td>{{.Asociado.Carnet}}</td>
+            {{if .Asociado.Sexo }}
             <td>Hombre</td>
             {{else}}
             <td>Mujer</td>
             {{end}}
-            <td>{{.NumeroT.String}}</td>
-            <td>{{.NumeroPerteneciente.String}}</td>
-            <td>{{.Direccion}}</td>
+            <td>{{.Asociado.NumeroT.String}}</td>
+            <td>{{.Asociado.NumeroPerteneciente.String}}</td>
+            <td>{{.Asociado.Direccion}}</td>
             <td>Centro Habana</td>
-            <td><button class="btn" onclick="openModal('modal{{.ID}}')">Ver</button></td>
+            <td><button class="btn" onclick="openModal('modal{{.Asociado.ID}}')">Ver</button></td>
         </tr>
         {{end}}
 
@@ -70,48 +70,46 @@
     <div class="button-container">
         <button class="btn" onclick="window.location.href='/crearasociado';">Crear Asociado</button>
     </div>
-    {{ range .asociados}}
     <div class="pagination-container">
         <div class="pagination">
             <a href="#" id="prev">&laquo;</a>
-            <a href="#" class="page-link">1</a>
-            <a href="#" class="page-link active">2</a>
-            <a href="#" class="page-link">3</a>
-            <a href="#" class="page-link">4</a>
-            <a href="#" class="page-link">5</a>
-            <a href="#" class="page-link">6</a>
+            {{ range .paginacion}}
+            <a href="/listar?offset={{.}}" class="page-link">{{.}}</a>
+            {{end}}
             <a href="#" id="next">&raquo;</a>
         </div>
     </div>
-    <div id="modal{{.ID}}" class="modal">
+    {{ range .resp }}
+
+    <div id="modal{{.Asociado.ID}}" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('modal{{.ID}}')">&times;</span>
+            <span class="close" onclick="closeModal('modal{{.Asociado.ID}}')">&times;</span>
             <h2>Detalles del Asociado</h2>
             <div class="modal-buttons">
-                <button class="btn-modal" onclick="openModal('culturalModal{{.ID}}')">Actividades Culturales</button>
-                <button class="btn-modal" onclick="openModal('educativeModal{{.ID}}')">Actividades Educativas</button>
-                <button class="btn-modal" onclick="openModal('sportModal{{.ID}}')">Actividades Deportivas</button>
-                <button class="btn-modal" onclick="openModal('socialModal{{.ID}}')">Datos Sociales</button>
+                <button class="btn-modal" onclick="openModal('culturalModal{{.Asociado.ID}}')">Actividades Culturales</button>
+                <button class="btn-modal" onclick="openModal('educativeModal{{.Asociado.ID}}')">Actividades Educativas</button>
+                <button class="btn-modal" onclick="openModal('sportModal{{.Asociado.ID}}')">Actividades Deportivas</button>
+                <button class="btn-modal" onclick="openModal('socialModal{{.Asociado.ID}}')">Datos Sociales</button>
             </div>
 
             <div class="details">
 
 
-                <p>Nombre: {{.Nombre}}</p>
+                <p>Nombre: {{.Asociado.Nombre}}</p>
 
-                <p>Primer Apellido: {{.Apellido1}}</p>
-                <p>Segundo Apellido: {{.Apellido2}}</p>
-                <p>Activo: {{.Activo}}</p>
-                <p>Carnet: {{.Carnet}}</p>
+                <p>Primer Apellido: {{.Asociado.Apellido1}}</p>
+                <p>Segundo Apellido: {{.Asociado.Apellido2}}</p>
+                <p>Activo: {{.Asociado.Activo}}</p>
+                <p>Carnet: {{.Asociado.Carnet}}</p>
 
-                {{if .Sexo }}
+                {{if .Asociado.Sexo }}
                 <p>Sexo: Masculino</p>
                 {{else}}
                 <p>Sexo: Femenino</p>
                 {{end}}
-                <p>Teléfono: {{.NumeroT.String}}</p>
-                <p>Otro Número: {{.NumeroPerteneciente.String}}</p>
-                <p>Dirección: {{.Direccion}}</p>
+                <p>Teléfono: {{.Asociado.NumeroT.String}}</p>
+                <p>Otro Número: {{.Asociado.NumeroPerteneciente.String}}</p>
+                <p>Dirección: {{.Asociado.Direccion}}</p>
                 <p>Municipio: Centro Habana</p>
             </div>
         </div>
@@ -119,61 +117,128 @@
 
     <!-- Modales para las actividades -->
 
-    <div id="culturalModal{{.ID}}" class="modal">
+    <div id="culturalModal{{.Asociado.ID}}" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('culturalModal{{.ID}}')">&times;</span>
-            <button class="carousel-button" onclick="nextModal('educativeModal{{.ID}}')">Siguiente</button>
-            <h2>Actividades Culturales</h2>
-            <div class="activity-buttons">
-                <button>Añadir Actividad</button>
-                <button>Editar Actividad</button>
-                <button>Eliminar Actividad</button>
+            <span class="close" onclick="closeModal('culturalModal{{.Asociado.ID}}')">&times;</span>
+            <button class="carousel-button-left" onclick="nextModal('socialModal{{.Asociado.ID}}')">Anterior</button>
+            <button class="carousel-button" onclick="nextModal('educativeModal{{.Asociado.ID}}')">Siguiente</button>
+            <h2 class="h2-act">Actividad Cultural</h2>
+            <div class="card-ia">
+                <div class="card-content-ia">
+                    <input type="text" placeholder="Añade una especialidad">
+                    <button class="button-modal">Añadir</button>
+                </div>
             </div>
-            <p>Lista de actividades culturales...</p>
+            <div class="participation-button">
+                <button class="btn" >Participación</button>
+            </div>
         </div>
     </div>
 
 
-    <div id="educativeModal{{.ID}}" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('educativeModal{{.ID}}')">&times;</span>
-            <button class="carousel-button" onclick="nextModal('sportModal{{.ID}}')">Siguiente</button>
-            <h2>Actividades Educativas</h2>
-            <div class="activity-buttons">
-                <button>Añadir Actividad</button>
-                <button>Editar Actividad</button>
-                <button>Eliminar Actividad</button>
+    <div id="educativeModal{{.Asociado.ID}}" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('educativeModal{{.Asociado.ID}}')">&times;</span>
+        <button class="carousel-button-left" onclick="nextModal('culturalModal{{.Asociado.ID}}')">Anterior</button>
+        <button class="carousel-button" onclick="nextModal('sportModal{{.Asociado.ID}}')">Siguiente</button>
+        <h2 class="h2-act">Actividad Educativa</h2>
+        <div class="card-modal-form">
+            <div class="card-content-ia">
+                {{ if .Educativa.Editar }}
+                <form id="form-card" method="post" action="/actualizaractividadeducativa?id={{.Asociado.ID}}">
+                {{else}}
+                    <form id="form-card" method="post" action="/crearactividadeducativa?id={{.Asociado.ID}}">
+                {{end}}
+                    <label for="grados">Ultimo grado aprobado:</label>
+                    <select id="grados" name="grados" required>
+                        {{ if .Educativa.Editar }}
+                        <option value="{{.Educativa.Actividad.UltimoGradoAprobado}}">{{.Educativa.Actividad.UltimoGradoAprobado}}</option>
+                        {{end}}
+                        <option value="Primaria">Primaria</option>
+                        <option value="Secundaria">Secundaria</option>
+                        <option value="Pre Universitario">Pre Universitario</option>
+                        <option value="Universitario">Universitario</option>
+                    </select>
+                    <label for="especialidad">Especialidad:</label>
+                    <input type="text" id="especialidad" name="especialidad" placeholder="especialidad" value="{{.Educativa.Estudios.EspecialidadGradoOAño}}" required>
+                    <label for="centro">Centro:</label>
+                    <input type="text" id="centro" name="centro" placeholder="centro" value="{{.Educativa.Estudios.Centro}}" required>
+                    <label for="Enseñansa">Tipo Enseñansa:</label>
+                    <input type="text" id="Enseñansa" name="enseñansa" placeholder="enseñanza" value="{{.Educativa.Estudios.TipoEnseñansa}}" required>
+                    <label for="fecha">Fecha de Graduación:</label>
+                    <input type="date" id="fecha" name="fecha" value="{{.Educativa.FormatDate}}" placeholder="{{.Educativa.Estudios.FechaDeGraduacion}}" required>
+
+                        {{ if .Educativa.Editar }}
+                        <button type="submit" style="background-color: #4CAF50">Actualizar</button>
+                            {{else}}
+                        <button type="submit">Agregar</button>
+                             {{end}}
+                </form>
             </div>
-            <p>Lista de actividades educativas...</p>
+        </div>
+    </div>
+    </div>
+
+    <div id="sportModal{{.Asociado.ID}}" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('sportModal{{.Asociado.ID}}')">&times;</span>
+            <button class="carousel-button-left" onclick="nextModal('educativeModal{{.Asociado.ID}}')">Anterior</button>
+            <button class="carousel-button" onclick="nextModal('socialModal{{.Asociado.ID}}')">Siguiente</button>
+            <h2 class="h2-act">Actividad Deportiva</h2>
+            <div class="card-ia">
+                <div class="card-content-ia">
+                    <input type="text" placeholder="Añade una especialidad">
+                    <button class="button-modal">Añadir</button>
+                </div>
+            </div>
+            <div class="participation-button">
+                <button class="btn" >Participación</button>
+            </div>
         </div>
     </div>
 
-    <div id="sportModal{{.ID}}" class="modal">
+
+    <div id="socialModal{{.Asociado.ID}}" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('sportModal{{.ID}}')">&times;</span>
-            <button class="carousel-button" onclick="nextModal('culturalModal')">Siguiente</button>
-            <h2>Actividades Deportivas</h2>
-            <div class="activity-buttons">
-                <button>Añadir Actividad</button>
-                <button>Editar Actividad</button>
-                <button>Eliminar Actividad</button>
+            <span class="close" onclick="closeModal('socialModal{{.Asociado.ID}}')">&times;</span>
+            <h2 class="h2-act">Datos Sociales</h2>
+            <button class="carousel-button-left" onclick="nextModal('sportModal{{.Asociado.ID}}')">Anterior</button>
+            <button class="carousel-button" onclick="nextModal('culturalModal{{.Asociado.ID}}')">Siguiente</button>
+            <div class="card-modal-form">
+                <div class="card-content-ia">
+                    <form id="form" method="" action="">
+                        <label for="ocupacion">Ocupación:</label>
+                        <select id="ocupacion" name="ocupacion" required>
+                            <option value="" disabled selected>Seleccione la ocupación</option>
+                            <option value="jubilado">Jubilado</option>
+                            <option value="sin_empleo">Sin Empleo</option>
+                            <option value="empleado">Empleado</option>
+                        </select>
+                        <label for="estado">Ocupación:</label>
+                        <select id="estado" name="estado" required>
+                            <option value="" disabled selected>Seleccione el Estado Civil</option>
+                            <option value="soltero">Soltero</option>
+                            <option value="casado">Casado</option>
+                            <option value="divorciado">Divorciado</option>
+                            <option value="viudo">Viudo</option>
+                        </select>
+                        <label for="integracion">Integración Revolucionaria:</label>
+                        <select id="integracion" name="integracion" required>
+                            <option value="" disabled selected>Seleccione el Estado Civil</option>
+                            <option value="pcc">PCC</option>
+                            <option value="ujc">UJC</option>
+                            <option value="cdr">CDR</option>
+                            <option value="fmc">FMC</option>
+                            <option value="mtt">MTT</option>
+                            <option value="bpo">BPO</option>
+                            <option value="ctc">CTC</option>
+                            <option value="far">FAR</option>
+                            <option value="minint">MININT</option>
+                        </select>
+                        <button type="submit">Añadir Datos Sociales</button>
+                    </form>
+                </div>
             </div>
-            <p>Lista de actividades deportivas...</p>
-        </div>
-    </div>
-
-
-    <div id="socialModal{{.ID}}" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('socialModal{{.ID}}')">&times;</span>
-
-            <h2>Datos Sociales</h2>
-            <div class="activity-buttons">
-                <button>Añadir Actividad</button>
-                <button>Editar Actividad</button>
-                <button>Eliminar Actividad</button>
-            </div>
-            <p>Lista de datos sociales...</p>
         </div>
     </div>
     {{end}}

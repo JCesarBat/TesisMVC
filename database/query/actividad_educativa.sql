@@ -17,10 +17,10 @@ INSERT INTO "estudios_actuales" (
 ) VALUES ($1,$2,$3,$4,$5) RETURNING *;
 
 -- name: GetActividadEducativa :one
-SELECT * FROM "actividad_educativa"  WHERE "actividad_educativa".id =$1 ;
+SELECT * FROM "actividad_educativa"  WHERE "actividad_educativa".id_asociado =$1 ;
 
 -- name: GetEstudiosActuales :one
-SELECT *FROM "estudios_actuales" WHERE "id"=$1 ;
+select * from estudios_actuales WHERE id = $1;
 
 -- name: UpdateActividadEducativa :one
 UPDATE "actividad_educativa"
@@ -36,10 +36,10 @@ SET
     especialidad_grado_o_año=$4,
     año_del_dato=$5,
     fecha_de_graduacion=$6
-WHERE id=$1 RETURNING *;
+WHERE id =$1 RETURNING *;
 
 -- name: DeleteActividadEducativa :exec
 DELETE FROM "actividad_educativa" WHERE id =$1;
 
 -- name: DeleteEstudiosActuales :exec
-DELETE FROM "estudios_actuales" WHERE id=$1;
+DELETE FROM "estudios_actuales" WHERE id =$1;

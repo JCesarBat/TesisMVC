@@ -16,4 +16,4 @@ CREATE TABLE "actividad_educativa"(
 
 );
 ALTER TABLE "actividad_educativa" ADD FOREIGN KEY  ("id_asociado") REFERENCES "asociado" ("id");
-ALTER TABLE "actividad_educativa" ADD FOREIGN KEY  ("id_estudios_actuales") REFERENCES "estudios_actuales" ("id");
+ALTER TABLE "actividad_educativa" ADD FOREIGN KEY  ("id_estudios_actuales") REFERENCES "estudios_actuales" (id);

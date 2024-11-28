@@ -86,7 +86,7 @@ func (q *Queries) DeleteActividadEducativa(ctx context.Context, id int64) error 
 }
 
 const deleteEstudiosActuales = `-- name: DeleteEstudiosActuales :exec
-DELETE FROM "estudios_actuales" WHERE id=$1
+DELETE FROM "estudios_actuales" WHERE id =$1
 `
 
 func (q *Queries) DeleteEstudiosActuales(ctx context.Context, id int64) error {
@@ -95,11 +95,11 @@ func (q *Queries) DeleteEstudiosActuales(ctx context.Context, id int64) error {
 }
 
 const getActividadEducativa = `-- name: GetActividadEducativa :one
-SELECT id, id_asociado, id_estudios_actuales, ultimo_grado_aprobado FROM "actividad_educativa"  WHERE "actividad_educativa".id =$1
+SELECT id, id_asociado, id_estudios_actuales, ultimo_grado_aprobado FROM "actividad_educativa"  WHERE "actividad_educativa".id_asociado =$1
 `
 
-func (q *Queries) GetActividadEducativa(ctx context.Context, id int64) (ActividadEducativa, error) {
-	row := q.db.QueryRowContext(ctx, getActividadEducativa, id)
+func (q *Queries) GetActividadEducativa(ctx context.Context, idAsociado int64) (ActividadEducativa, error) {
+	row := q.db.QueryRowContext(ctx, getActividadEducativa, idAsociado)
 	var i ActividadEducativa
 	err := row.Scan(
 		&i.ID,
@@ -111,7 +111,7 @@ func (q *Queries) GetActividadEducativa(ctx context.Context, id int64) (Activida
 }
 
 const getEstudiosActuales = `-- name: GetEstudiosActuales :one
-SELECT id, "tipo_enseñansa", centro, "especialidad_grado_o_año", "año_del_dato", fecha_de_graduacionFROM "estudios_actuales" WHERE "id"=$1
+select id, "tipo_enseñansa", centro, "especialidad_grado_o_año", "año_del_dato", fecha_de_graduacion from estudios_actuales WHERE id = $1
 `
 
 func (q *Queries) GetEstudiosActuales(ctx context.Context, id int64) (EstudiosActuale, error) {
@@ -160,7 +160,7 @@ SET
     especialidad_grado_o_año=$4,
     año_del_dato=$5,
     fecha_de_graduacion=$6
-WHERE id=$1 RETURNING id, "tipo_enseñansa", centro, "especialidad_grado_o_año", "año_del_dato", fecha_de_graduacion
+WHERE id =$1 RETURNING id, "tipo_enseñansa", centro, "especialidad_grado_o_año", "año_del_dato", fecha_de_graduacion
 `
 
 type UpdateEstudiosActualesParams struct {

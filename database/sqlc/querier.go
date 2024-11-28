@@ -30,8 +30,8 @@ type Querier interface {
 	DeleteParticipacionC(ctx context.Context, id int64) error
 	DeleteUser(ctx context.Context, id int64) error
 	GetActividadCultural(ctx context.Context, id int64) (ActividadCultural, error)
-	GetActividadDeportiva(ctx context.Context, id int64) (ActividadDeportiva, error)
-	GetActividadEducativa(ctx context.Context, id int64) (ActividadEducativa, error)
+	GetActividadDeportiva(ctx context.Context, idAsociado int64) (ActividadDeportiva, error)
+	GetActividadEducativa(ctx context.Context, idAsociado int64) (ActividadEducativa, error)
 	GetAllMunicipio(ctx context.Context, idProvincia int64) ([]Municipio, error)
 	GetAllProv(ctx context.Context) ([]Provincium, error)
 	GetAllRol(ctx context.Context) ([]Rol, error)
@@ -56,6 +56,7 @@ type Querier interface {
 	InsertUser(ctx context.Context, arg InsertUserParams) (User, error)
 	ListAsociado(ctx context.Context, arg ListAsociadoParams) ([]Asociado, error)
 	ListUsers(ctx context.Context, arg ListUsersParams) ([]User, error)
+	ListarAsociadoAll(ctx context.Context) ([]Asociado, error)
 	UpdateActividadCultural(ctx context.Context, arg UpdateActividadCulturalParams) (ActividadCultural, error)
 	UpdateActividadDeportiva(ctx context.Context, arg UpdateActividadDeportivaParams) (ActividadDeportiva, error)
 	UpdateActividadEducativa(ctx context.Context, arg UpdateActividadEducativaParams) (ActividadEducativa, error)
